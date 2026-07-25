@@ -1,6 +1,7 @@
 package checker
 
 import (
+	"context"
 	"net/http"
 	"sync"
 	"time"
@@ -13,10 +14,18 @@ type Result struct{
 	Err        error
 }
 
-func CheckURL(url string) Result {
+func CheckURL(url string,timeout time.Duration) Result {
+	ctx,cancel := context.WithTimeout(context.Background(),timeout)
+	defer cancel()
+
+
 	start := time.Now()
-	resp,err := http.Get(url)
-	duration := time.Since(start)
+	req,err := http.NewRequestWithContext(ctx, "GET",url,nil)
+	if err != nil {
+		return Result{URL:url,Err:err}
+	}
+		resp, err := http.DefaultClient.Do(req)
+	  duration := time.Since(start)
 	
 
 	if err != nil{
@@ -26,7 +35,7 @@ func CheckURL(url string) Result {
 
 	return Result{URL: url, StatusCode: resp.StatusCode, Duration:duration}
 }
-func CheckALL(urls []string, maxConcurrent int) []Result {
+func CheckALL(urls []string, maxConcurrent int, timeout time.Duration) []Result {
 	var wg sync.WaitGroup
 	resultsChan := make(chan Result, len(urls))
 	sem := make(chan struct{}, maxConcurrent)
@@ -39,7 +48,7 @@ func CheckALL(urls []string, maxConcurrent int) []Result {
 			sem <- struct{}{}
 			// hint: defer func() { <-sem }() — slot free karo function khatam hote hi
 			defer func() {<-sem }()
-			result := CheckURL(u)
+			result := CheckURL(u, timeout)
 			resultsChan <- result
 		}(url)
 	}

@@ -13,4 +13,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Loaded config: %+v\n", cfg)
+	results := checker.CheckALL(cfg.URLs, cfg.MaxConcurrent)
+	fmt.Printf("Check results: %+v\n", results)
 }
