@@ -1,8 +1,8 @@
 {
-  "urls":[
+  "urls": [
     "https://google.com",
-    "https://github,com"
+    "https://github.com"
   ],
-  "timeout_seconds":5,
-  "max_concurrent":3
+  "timeout_seconds": 30,
+  "max_concurrent": 3
 }

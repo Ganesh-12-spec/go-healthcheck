@@ -5,10 +5,10 @@ import (
 	"os"
 )
 
-type Config struct{
-	URLs            []string `json:"urls"`
-	TimeoutSeconds  int    `json:"timeout-seconds"`
-	MaxConcurrent  int      `json:"max_concurrent"`
+type Config struct {
+    URLs           []string `json:"urls"`
+    TimeoutSeconds int      `json:"timeout_seconds"`
+    MaxConcurrent  int      `json:"max_concurrent"`
 }
 
 func LoadConfig(path string) (*Config, error){
