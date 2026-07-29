@@ -68,7 +68,3 @@ checker/checker.go — Result struct, CheckURL() (single check with timeout),
 https://github.com -> 200 (142ms)
 https://google.com -> 200 (466ms)
 ​```
-
-## Status
-
-Built as part of a self-directed Go backend learning roadmap (Week 4). First version shipped, then rebuilt from scratch to properly understand the concurrency concepts.
